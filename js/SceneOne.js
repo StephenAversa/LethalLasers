@@ -11,7 +11,7 @@ export default class extends BaseScene {
     //Ground
     const ground = BABYLON.Mesh.CreatePlane("ground", 300, this);
     ground.material = new BABYLON.StandardMaterial("groundMat", this);
-    ground.material.diffuseTexture = new BABYLON.Texture("textures/grass.jpg", this);
+    ground.material.diffuseTexture = new BABYLON.Texture("Textures/grass.jpg", this);
     ground.material.backFaceCulling = false;
     ground.position = new BABYLON.Vector3(5, -10, -15);
     ground.rotation = new BABYLON.Vector3(Math.PI / 2, 0, 0);
@@ -44,7 +44,7 @@ export default class extends BaseScene {
     //Simple crate
     const box = new BABYLON.Mesh.CreateBox("crate", 2, this);
     box.material = new BABYLON.StandardMaterial("Mat", this);
-    box.material.diffuseTexture = new BABYLON.Texture("textures/crate.jpg", this);
+    box.material.diffuseTexture = new BABYLON.Texture("Textures/crate.jpg", this);
     box.material.diffuseTexture.hasAlpha = true;
     box.position = new BABYLON.Vector3(5, -9, -10);
 
@@ -56,7 +56,11 @@ export default class extends BaseScene {
 
     color = new BABYLON.Color3(1.00, 0.10, 0.10);
     name = "redLaser";
-    let blueLaser = new Laser( {scene, name, laserlen, color} );
+    let startPosition = {x: 4.50, z: -10.5};
+    let blueLaser = new Laser( {scene, name, laserlen, color, startPosition} );
+
+    startPosition = {x: -8.50, z: -10.5};
+    let laser3 = new Laser( {scene, name, laserlen, color, startPosition} );
     
     //finally, say which mesh will be collisionable
     ground.checkCollisions = true;
@@ -65,6 +69,7 @@ export default class extends BaseScene {
     this.registerBeforeRender( () => {
         myLaser.update();
         blueLaser.update();
+        laser3.update();
         
         if( (myLaser.intersectsPlayer() || blueLaser.intersectsPlayer()) && !this.youLose ){
           this.youLose = true;

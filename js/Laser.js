@@ -1,5 +1,7 @@
 export default class {
-  constructor({scene, name, laserlen, color}){
+  constructor({scene, name, laserlen, color, startPosition}){
+
+    let startPos = startPosition ? startPosition : {x:0, z:0};
 
     console.log(`Creating ${name} Laser`);
     //let shaderPath = {vertex: "custom",fragment: "custom"};
@@ -46,6 +48,12 @@ export default class {
     console.log(`Create Plane ${name}Plane1`);
     this.plane1 = BABYLON.MeshBuilder.CreatePlane(`${name}Plane1`, { width: 4, height: laserlen }, scene);
     this.plane2 = BABYLON.MeshBuilder.CreatePlane(`${name}Plane2`, { width: 4, height: laserlen }, scene);
+    this.plane1.position.x = startPos.x;
+    this.plane1.position.z = startPos.z;
+    this.plane2.position.x = startPos.x;
+    this.plane2.position.z = startPos.z;
+    
+    console.log(`Laster placed at ${this.plane1.position.x}, ${this.plane1.position.z}`);
 
     this.laserMaterial.setColor3('color', color );
     this.laserMaterial.alphaMode = BABYLON.Engine.ALPHA_ADD;
@@ -86,15 +94,15 @@ export default class {
     let changeZ = 0;
 
     if( this.plane1.position.x > this.scene.camera.position.x ){
-      changeX = -.02;
+      changeX = -.03;
     } else {
-      changeX = .02;
+      changeX = .03;
     }
 
     if( this.plane1.position.z > this.scene.camera.position.z ){
-      changeZ = -.02;
+      changeZ = -.03;
     } else {
-      changeZ = .02;
+      changeZ = .03;
     }
 
     this.setPosition( changeX, changeZ );
