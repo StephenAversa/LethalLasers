@@ -2,8 +2,8 @@ import BaseScene from './BaseScene.js'
 import Laser from './Laser.js'
 
 export default class extends BaseScene {
-  constructor ({ engine, canvas }) {
-    super( {engine, canvas} );
+  constructor ({ engine, canvas, restartScene }) {
+    super( {engine, canvas, restartScene} );
     console.log("Setting up scene 1");
 
     this.youLose = false;
@@ -78,7 +78,7 @@ export default class extends BaseScene {
           var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
         
           var text1 = new BABYLON.GUI.TextBlock();
-          text1.text = "The Lasers Got you!";
+          text1.text = "The Lasers Got you! Press r or tap to restart";
           text1.color = "white";
           text1.fontSize = 24;
           advancedTexture.addControl(text1);    

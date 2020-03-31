@@ -1,7 +1,10 @@
 export default class extends BABYLON.Scene {
-  constructor ({ engine, canvas }) {
+  constructor ({ engine, canvas, restartScene }) {
     super( engine );
+    this.restartCallback = restartScene;
     this.canvas = canvas;
+
+    this.youLose = false;
 
     console.log("Setting up Base Scene 1");
     /******* ENVIRONMENT AND PLAYER ******/
@@ -53,6 +56,10 @@ export default class extends BABYLON.Scene {
   }
 
   onPointerDown( evt ){
+    if( this.youLose ){
+      this.restartCallback( this );
+    }
+
     if (!this.isLocked) {
         this.canvas.requestPointerLock = this.canvas.requestPointerLock || this.canvas.msRequestPointerLock || this.canvas.mozRequestPointerLock || this.canvas.webkitRequestPointerLock;
         if (this.canvas.requestPointerLock) {
@@ -82,6 +89,13 @@ export default class extends BABYLON.Scene {
   keyboardHandler( e ) {
      if (this.camera.controlsEnabled) {
         // Spacebar to jump
+        console.log(`Key Press ${e.event.keyCode}`);
+        
+        // Press 'r' to restart the scene
+        if (e.event.keyCode == 82) {
+          this.restartCallback( this );
+        }
+
         if (e.event.keyCode == 32) {
             console.log(e.type);
             if (e.type === 1) {
